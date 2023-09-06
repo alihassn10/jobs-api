@@ -25,7 +25,7 @@ const auth = require('./middleware/authentication');
 
 // routes
 app.get('/', (req, res) => {
-  res.send('<h1>Jobs API</h1><a href="/api-docs">Documentation</a>');
+  res.send('<h1>Jobs APIS</h1><a href="/api-docs">Documentation</a>');
 });
 app.use('/api/v1/auth',authRoute)
 app.use('/api/v1/jobs',auth,jobsRoute)
