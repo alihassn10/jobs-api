@@ -27,15 +27,6 @@ const express = require('express');
 const app = express();
 
 app.use(express.json());
-app.use(
-  rateLimiter({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
-  })
-);
-app.use(helmet())
-app.use(cors({ origin: '*' }));
-app.use(xss)
 
 // extra packages
 
@@ -46,11 +37,20 @@ app.get('/', (req, res) => {
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use('/api/v1/auth',authRoute)
 app.use('/api/v1/jobs',auth,jobsRoute)
-    
+
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
 //security
+app.use(
+  rateLimiter({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per windowMs
+  })
+);
+app.use(helmet())
+app.use(cors({ origin: '*' }));
+app.use(xss)
 
 const port = process.env.PORT || 3000;
 
