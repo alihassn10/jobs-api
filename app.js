@@ -24,6 +24,9 @@ const auth = require('./middleware/authentication');
 // extra packages
 
 // routes
+app.get('/', (req, res) => {
+  res.send('<h1>Jobs API</h1><a href="/api-docs">Documentation</a>');
+});
 app.use('/api/v1/auth',authRoute)
 app.use('/api/v1/jobs',auth,jobsRoute)
     
@@ -32,10 +35,13 @@ app.use(errorHandlerMiddleware);
 
 app.use(express.json());
 //security
-app.use(rateLimiter({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-	max: 100, 
-}))
+app.set('trust proxy', 1);
+app.use(
+  rateLimiter({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per windowMs
+  })
+);
 app.use(helmet())
 app.use(cors())
 app.use(xss)
