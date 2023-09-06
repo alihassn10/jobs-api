@@ -1,0 +1,201 @@
+openapi: 3.0.3
+info:
+  title: Jobs API
+  version: '1.0'
+servers:
+  - url: https://jobs-api-drab.vercel.app/api/v1
+paths:
+  /auth/login:
+    post:
+      tags:
+        - auth
+      summary: login
+      operationId: login
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/loginrequest'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+  /auth/register:
+    post:
+      tags:
+        - auth
+      summary: register
+      operationId: register
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/registerrequest'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+  /jobs:
+    post:
+      tags:
+        - jobs
+      summary: create-job
+      operationId: create-job
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/create-job-request'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+    get:
+      tags:
+        - jobs
+      summary: get-all-jobs
+      operationId: get-all-jobs
+      parameters:
+        - name: id
+          in: query
+          description: ID of the job (optional, can be used for filtering)
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+
+  '/jobs/{id}':
+    get:
+      tags:
+        - jobs
+      summary: get-job
+      operationId: get-job
+      parameters:
+        - name: id
+          in: path
+          description: ID of the job to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+
+    patch:
+      tags:
+        - jobs
+      summary: update-job
+      operationId: update-job
+      parameters:
+        - name: id
+          in: path
+          description: ID of the job to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/update-job-request'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+
+    delete:
+      tags:
+        - jobs
+      summary: delete-job
+      operationId: delete-job
+      parameters:
+        - name: id
+          in: path
+          description: ID of the job to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+components:
+  schemas:
+    loginrequest:
+      required:
+        - email
+        - password
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        email: ali2@gmail.com
+        password: secret
+    create-job-request:
+      required:
+        - position
+        - company
+      type: object
+      properties:
+        position:
+          type: string
+        company:
+          type: string
+      example:
+        position: developer
+        company: arbisoft
+    registerrequest:
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          type: string
+      example:
+        name: peter
+    update-job-request:
+      required:
+        - position
+        - company
+      type: object
+      properties:
+        position:
+          type: string
+        company:
+          type: string
+      example:
+        position: developer
+        company: ggg
+security: []
+tags:
+  - name: auth
+  - name: jobs
