@@ -8,6 +8,7 @@ const rateLimiter=require('express-rate-limit')
 const express = require('express');
 const app = express();
 
+app.use(express.json());
 //db connection
 const connectDB = require('./db/connect');
 
@@ -33,7 +34,6 @@ app.use('/api/v1/jobs',auth,jobsRoute)
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
-app.use(express.json());
 //security
 app.set('trust proxy', 1);
 app.use(
